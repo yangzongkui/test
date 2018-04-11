@@ -1,0 +1,97 @@
+1.业内大牛
+余庆：淘宝架构师   fastdfs  fastdht   
+廖雪峰：Git教程
+
+2.单例模式：
+
+//饿汉式
+class MySingle1{
+	public static MySingle1 instance=new MySIngle1();
+	private MySingle1(){}
+	
+	//返回该类型唯一的实例对象
+	public static MySingle1 newInstance(){
+		return instance;
+	}
+
+}
+
+//懒汉式
+class MySingle2 {//懒汉式
+	//在类加载的过程中提前创建好该类唯一的对象
+	private static MySingle2 instance ;
+	private MySingle2(){}
+	
+	//返回该类型唯一的实例对象
+	public static synchronized MySingle2 newInstance(){
+		//将instance创建的时机延迟到newInstance()第1次调用时
+		if(instance == null){
+			instance = new MySingle2();
+		}
+		return instance;
+	}
+
+
+//静态内部类
+
+class MySingle3{
+	private MySingle3(){}
+	
+	//私有的静态内部类，该类中有一个MySingle3类型的类变量
+	private static class Inner{
+		private static MySingle3 instance = new MySingle3();
+	}
+	
+	public static MySingle3 newInstance(){
+		return Inner.instance;
+	}
+
+
+
+//工厂设计模式
+
+产品类：
+abstract class BMW {  
+    public BMW(){  
+          
+    }  
+}  
+  
+public class BMW320 extends BMW {  
+    public BMW320() {  
+        System.out.println("制造-->BMW320");  
+    }  
+}  
+public class BMW523 extends BMW{  
+    public BMW523(){  
+        System.out.println("制造-->BMW523");  
+    }  
+}  
+
+
+工厂类：
+public class Factory {  
+    public BMW createBMW(int type) {  
+        switch (type) {  
+          
+        case 320:  
+            return new BMW320();  
+  
+        case 523:  
+            return new BMW523();  
+  
+        default:  
+            break;  
+        }  
+        return null;  
+    }  
+}  
+
+客户类：
+public class Customer {  
+    public static void main(String[] args) {  
+        Factory factory = new Factory();  
+        BMW bmw320 = factory.createBMW(320);  
+        BMW bmw523 = factory.createBMW(523);  
+    }  
+}  
